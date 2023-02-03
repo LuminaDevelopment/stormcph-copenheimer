@@ -21,3 +21,16 @@ https://imgur.com/a/0eZyv7E
 
 - the one and only 𝕽𝖔𝖓𝖎𝖓
 
+
+## Installation
+
+HTTPS ```https://github.com/thepyeman/ipbruteforce.git```
+
+SSH ```git@github.com:thepyeman/ipbruteforce.git```
+
+GitHub CLI ```gh repo clone thepyeman/ipbruteforce```
+    
+## 🔗 Links
+Other Sh*t i have made
+
+i have made other things but i havemt uploaded it :=()
