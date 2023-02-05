@@ -3,6 +3,7 @@ import threading
 import time
 import requests
 import datetime
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 def create_packet():
     # Create the packet to query the server
@@ -16,19 +17,23 @@ packet = create_packet()
 def check_server(ip, port):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(0.5)
+        s.settimeout(0.2)
         s.connect((ip, port))
         s.send(packet)
         data = s.recv(1024)
         s.close()
 
         if len(data) > 0:
-            print(f"Server found at {ip}:{port}")
-            message = f"Server found at {ip}:{port} on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-            requests.post("https://discord.com/api/webhooks/1071013978530119690/Ra33VyHupRQ5aanV_WXczFcWTR1Vx_SSmuV3TPUY2V5Z3LWUCci0QQbXELgqCAFsR9kg",
-                          json={"content": "```" + message + "```"})
+            message = DiscordEmbed(title="__New Server Found! (*Click Me!*)__", 
+                                   url=f"https://mcsrvstat.us/server/{ip}:{port}",
+                                   description=f"Server Ip: `{ip}:{port}`\n Date and Time: `{datetime.datetime.now().strftime('%H:%M:%S')}`\n\n*Bot Made By __xxx__*", 
+                                   color=242424)
+            hook = DiscordWebhook(url="https://discord.com/api/webhooks/1071013978530119690/Ra33VyHupRQ5aanV_WXczFcWTR1Vx_SSmuV3TPUY2V5Z3LWUCci0QQbXELgqCAFsR9kg", 
+                                  username="The Fifth Eye")
+            hook.add_embed(message)
+            hook.execute()
     except socket.error:
-        print(f"Could not connect to {ip}:{port}")
+        print(f"Checked The Ip: {ip}:{port}")
 
 def main():
     start_ip = input("Enter the starting IP address (e.g. 1.1.1.1): ")
@@ -45,15 +50,14 @@ def main():
 
     threads = []
     for i in range(start_ip[0], end_ip[0]+1):
-        for j in range(start_ip[1], end_ip[1]+1):
-            for k in range(start_ip[2], end_ip[2]+1):
-                for l in range(start_ip[3], end_ip[3]+1):
-                    ip = f"{i}.{j}.{k}.{l}"
-                    t = threading.Thread(target=check_server, args=(ip, port))
-                    threads.append(t)
-                    t.start()
-                    time.sleep(0.1)
-
+      for j in range(start_ip[1], end_ip[1]+1):
+        for k in range(start_ip[2], end_ip[2]+1):
+            for l in range(start_ip[3], end_ip[3]+1):
+                ip = f"{i}.{j}.{k}.{l}"
+                t = threading.Thread(target=check_server, args=(ip, port))
+                threads.append(t)
+                t.start()
+                time.sleep(0.1)
     for t in threads:
         t.join()
 
