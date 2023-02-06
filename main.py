@@ -24,17 +24,16 @@ def check_server(ip, port):
         for player in res.res.get('players', {}).get('list', []):
             players += f"\n - {player['name']}"
 
-        message = DiscordEmbed(title="__New Minecraft Server Found! (*Click Me!*)__", 
+        message = DiscordEmbed(title="__New Minecraft Server Found! (*Click Me!*)__",
                                url=f"https://mcsrvstat.us/server/{ip}:{port}",
-                               description=f"Server Ip: `{ip}:{port}`\n Players Online: `{res.res['players']['online']}`{players}\n Max Players: `{res.res['players']['max']}`\n Version: `{res.res['version']}`\n\n*Bot Made By __xxx__*", 
+                               description=f"Server Ip: `{ip}:{port}`\n Players Online: `{res.res['players']['online']}`{players}\n Max Players: `{res.res['players']['max']}`\n Version: `{res.res['version']}`\n\n*Bot Made By __xxx__*",
                                color=242424)
-        hook = DiscordWebhook(url="https://discord.com/api/webhooks/1071013978530119690/Ra33VyHupRQ5aanV_WXczFcWTR1Vx_SSmuV3TPUY2V5Z3LWUCci0QQbXELgqCAFsR9kg", 
+        hook = DiscordWebhook(url="https://discord.com/api/webhooks/1071013978530119690/Ra33VyHupRQ5aanV_WXczFcWTR1Vx_SSmuV3TPUY2V5Z3LWUCci0QQbXELgqCAFsR9kg",
                               username="The Fifth Eye")
         hook.add_embed(message)
         hook.execute()
     except socket.error:
         print(f"Checked The Ip: {ip}:{port}")
-      
 
 def main():
     start_ip = input("Enter the starting IP address (e.g. 1.1.1.1): ")
@@ -62,12 +61,8 @@ def main():
     for t in threads:
         t.join()
 
-
-
-
 if __name__ == '__main__':
     main()
-
 
 
 
